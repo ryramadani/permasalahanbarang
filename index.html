@@ -319,7 +319,7 @@
         <div id="operator-view" class="hidden w-full max-w-6xl mx-auto p-2 sm:p-4 md:p-6">
             <!-- Header Baru: Sejajar & Elegan -->
             <div
-                class="flex items-center justify-between mb-8 w-full max-w-4xl mx-auto px-4 bg-white/40 backdrop-blur-md py-4 rounded-[2rem] border border-white/60 shadow-sm mt-2">
+                class="flex items-center justify-between gap-1 sm:gap-4 mb-8 w-full max-w-4xl mx-auto px-2 sm:px-6 bg-white/40 backdrop-blur-md py-4 rounded-[2rem] border border-white/60 shadow-sm mt-2">
                 <!-- Hamburger Menu Sejajar -->
                 <button id="menu-btn-operator"
                     class="p-3 sm:p-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-white transition-all active:scale-90 flex-shrink-0">
@@ -327,31 +327,24 @@
                 </button>
 
                 <!-- Judul Terpusat -->
-                <div class="text-center flex-1 px-4 min-w-0">
+                <div class="text-center flex-1 px-2 sm:px-4 min-w-0">
                     <h1
-                        class="text-lg xs:text-xl sm:text-2xl font-black text-slate-900 tracking-tighter uppercase whitespace-nowrap leading-none mb-1">
+                        class="text-[15px] xs:text-lg sm:text-2xl font-black text-slate-900 tracking-tighter uppercase whitespace-nowrap leading-none mb-1">
                         PERMASALAHAN BARANG</h1>
                     <p
-                        class="text-slate-400 text-[8px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] whitespace-nowrap">
+                        class="text-slate-400 text-[7px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] whitespace-nowrap">
                         Sistem Monitoring Terpadu</p>
                 </div>
 
-                <!-- Tracking Button (NEW) -->
-                <button id="tracking-btn-operator"
-                    class="p-3 sm:p-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-white transition-all active:scale-90 flex-shrink-0 relative group">
-                    <i class="fa-solid fa-satellite-dish text-xl group-hover:animate-pulse"></i>
-                    <span id="online-count-badge" class="absolute top-2 right-2 flex h-3 w-3">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </span>
-                </button>
-
-                <!-- Refresh Button Sejajar (Elegant Design) -->
-                <button id="operator-refresh-btn"
-                    class="p-3 sm:p-4 rounded-2xl text-slate-400 hover:text-amber-600 hover:bg-white transition-all active:scale-90 flex-shrink-0 group">
-                    <i class="fa-solid fa-rotate text-xl group-hover:rotate-180 transition-transform duration-500"></i>
-                </button>
+                <!-- Right Actions Group -->
+                <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                    <!-- Refresh Button Sejajar (Elegant Design) -->
+                    <button id="operator-refresh-btn"
+                        class="p-2 sm:p-4 rounded-xl sm:rounded-2xl text-slate-400 hover:text-amber-600 hover:bg-white transition-all active:scale-90 group">
+                        <i
+                            class="fa-solid fa-rotate text-base sm:text-xl group-hover:rotate-180 transition-transform duration-500"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Search Section: Premium Floating Bar -->
@@ -546,7 +539,20 @@
                     </div>
                 </div>
 
+                <!-- Tabs (NEW) -->
+                <div class="flex border-b border-slate-100 bg-slate-50/50">
+                    <button id="tab-online"
+                        class="flex-1 py-4 text-[10px] font-black uppercase tracking-widest text-indigo-600 border-b-2 border-indigo-600 transition-all">
+                        <i class="fa-solid fa-signal mr-1.5"></i> Online
+                    </button>
+                    <button id="tab-history"
+                        class="flex-1 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600 transition-all">
+                        <i class="fa-solid fa-clock-rotate-left mr-1.5"></i> History
+                    </button>
+                </div>
+
                 <div class="p-6">
+                    <!-- Section: Online List -->
                     <div id="presence-list" class="space-y-3 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
                         <!-- Presence items go here -->
                         <div class="animate-pulse flex space-x-4">
@@ -558,6 +564,15 @@
                                     <div class="h-2 bg-slate-200 rounded col-span-1"></div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: History List (NEW) -->
+                    <div id="history-list" class="hidden space-y-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div class="text-center py-10">
+                            <div class="spinner mx-auto mb-4 scale-75 opacity-50"></div>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Memuat Riwayat...
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -608,6 +623,17 @@
         
         -- 5. SQL UNTUK MEMBUAT BUCKET STORAGE (dari tutorial_storage.md)
         -- CUKUP BUAT LEWAT UI: Buat bucket publik baru bernama 'gambar-barang'
+
+        -- 6. Tabel History Aktivitas (BARU)
+        /*
+        CREATE TABLE public.activity_logs (
+          id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+          user_nickname TEXT,
+          role TEXT,
+          action TEXT,
+          details TEXT,
+          created_at TIMESTAMPTZ DEFAULT now()
+        );
         */
 
         const SUPABASE_URL = typeof __supabase_url !== 'undefined' ? __supabase_url : 'https://hxkpkadtxfxiiafsybls.supabase.co';
@@ -625,11 +651,28 @@
         // --- Fungsi Deteksi Perangkat ---
         function getDeviceInfo() {
             const ua = navigator.userAgent;
-            if (/android/i.test(ua)) return "Android";
-            if (/iPad|iPhone|iPod/.test(ua)) return "iPhone/iPad";
-            if (/Windows/i.test(ua)) return "Windows PC";
-            if (/Macintosh/i.test(ua)) return "MacBook/Mac";
-            if (/Linux/i.test(ua)) return "Linux PC";
+
+            // 1. Android - Kadang menyertakan Merk/Model (misal: Samsung SM-G960F)
+            if (/android/i.test(ua)) {
+                const match = ua.match(/Android.*;\s+([^;]+)\s+Build/i) || ua.match(/\(([^;]+);\s+([^;)]+)\s+Build/i);
+                const model = match ? (match[2] || match[1]) : "Android";
+                return model.length > 20 ? "Android" : model;
+            }
+
+            // 2. iOS (iPhone/iPad) - Browser membatasi info model spesifik
+            if (/iPhone/.test(ua)) return "iPhone";
+            if (/iPad/.test(ua)) return "iPad";
+
+            // 3. Windows - Tidak memberikan merk fisik (Asus/Dell dll) lewat browser
+            if (/Windows/.test(ua)) {
+                if (/Windows NT 10.0/.test(ua)) return "Windows 10/11";
+                if (/Windows NT 6.1/.test(ua)) return "Windows 7";
+                return "Windows PC";
+            }
+
+            // 4. Mac
+            if (/Macintosh/.test(ua)) return "Mac device";
+
             return "Perangkat";
         }
 
@@ -690,6 +733,9 @@
         const trackingBtnOperator = document.getElementById('tracking-btn-operator');
         const trackingBtnAdmin = document.getElementById('tracking-btn-admin');
         const onlineCountBadge = document.getElementById('online-count-badge');
+        const tabOnline = document.getElementById('tab-online');
+        const tabHistory = document.getElementById('tab-history');
+        const historyList = document.getElementById('history-list');
 
         let currentZoom = 1;
 
@@ -842,6 +888,9 @@
                             online_at: new Date().toISOString(),
                         });
                         console.log('Presence Track Status:', presenceTrackStatus);
+
+                        // Log Entry
+                        logActivity('Membuka Website');
                     }
                 });
         }
@@ -874,23 +923,39 @@
                 const isMe = u.user === userNickname;
 
                 const itemHTML = `
-                    <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 transition-all hover:shadow-md ${isMe ? 'ring-2 ring-indigo-500/20' : ''}">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 ${isAdmin ? 'bg-indigo-600' : 'bg-slate-200'} rounded-xl flex items-center justify-center text-white">
-                                <i class="fa-solid ${isAdmin ? 'fa-user-shield' : 'fa-user-astronaut'} ${isAdmin ? 'text-white' : 'text-slate-400'}"></i>
+                    <div class="flex items-center justify-between p-3.5 bg-white rounded-3xl border border-slate-100 transition-all hover:shadow-xl hover:shadow-indigo-50/50 group/item ${isMe ? 'ring-2 ring-indigo-500/10 bg-indigo-50/5' : ''}">
+                        <div class="flex items-center gap-4">
+                            <!-- Avatar with Status Dot -->
+                            <div class="relative">
+                                <div class="w-12 h-12 ${isAdmin ? 'bg-indigo-600 shadow-lg shadow-indigo-100' : 'bg-slate-100'} rounded-2xl flex items-center justify-center transition-transform group-hover/item:scale-110">
+                                    <i class="fa-solid ${isAdmin ? 'fa-user-shield text-white' : 'fa-user-astronaut text-slate-400'} text-lg"></i>
+                                </div>
+                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                    <div class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
+                                </div>
                             </div>
+
                             <div>
-                                <h4 class="text-sm font-black text-slate-800 leading-none mb-1">
-                                    ${u.user} ${isMe ? '<span class="text-[10px] text-indigo-500 font-bold ml-1">(Anda)</span>' : ''}
-                                </h4>
-                                <span class="text-[9px] font-bold uppercase tracking-widest ${isAdmin ? 'text-indigo-600' : 'text-slate-400'}">
-                                    ${u.role}
-                                </span>
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <h4 class="text-[14px] font-black text-slate-800 leading-tight">
+                                        ${u.user}
+                                    </h4>
+                                    ${isMe ? '<span class="px-2 py-0.5 bg-indigo-100 text-indigo-600 text-[8px] font-black uppercase rounded-md tracking-tighter">Anda</span>' : ''}
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[9px] font-black uppercase tracking-[0.15em] ${isAdmin ? 'text-indigo-600' : 'text-slate-400'}">
+                                        ${u.role}
+                                    </span>
+                                    <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+                                    <span class="text-[9px] font-bold text-slate-300 uppercase">Aktif Sekarang</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                             <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                             <span class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Online</span>
+                        
+                        <div class="hidden sm:block">
+                            <div class="px-3 py-1 bg-slate-50 rounded-full border border-slate-100">
+                                <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Online</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -898,13 +963,115 @@
             });
         }
 
+        async function logActivity(action, details = '') {
+            if (!supabase) return;
+            try {
+                await supabase.from('activity_logs').insert([{
+                    user_nickname: userNickname,
+                    role: userRole,
+                    action: action,
+                    details: details
+                }]);
+            } catch (e) {
+                console.warn("Gagal mencatat log:", e);
+            }
+        }
+
+        async function fetchHistory() {
+            if (!supabase || !historyList) return;
+
+            historyList.innerHTML = `
+                <div class="text-center py-10">
+                    <div class="spinner mx-auto mb-4 scale-75 opacity-50"></div>
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Memuat Riwayat...</p>
+                </div>`;
+
+            const { data, error } = await supabase
+                .from('activity_logs')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(50);
+
+            if (error) {
+                historyList.innerHTML = `<p class="text-center text-red-500 text-xs font-bold py-10">Gagal memuat history</p>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                historyList.innerHTML = `<p class="text-center text-slate-400 text-xs font-bold py-10">Belum ada riwayat aktivitas</p>`;
+                return;
+            }
+
+            historyList.innerHTML = '';
+            data.forEach(log => {
+                const date = new Date(log.created_at);
+                const timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                const dateStr = date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+
+                let actionIcon = 'fa-circle-info';
+                let iconColor = 'bg-slate-100 text-slate-400';
+
+                if (log.action.includes('Tambah')) { actionIcon = 'fa-plus'; iconColor = 'bg-green-50 text-green-600'; }
+                else if (log.action.includes('Update')) { actionIcon = 'fa-pen-to-square'; iconColor = 'bg-indigo-50 text-indigo-600'; }
+                else if (log.action.includes('Hapus')) { actionIcon = 'fa-trash-can'; iconColor = 'bg-rose-50 text-rose-600'; }
+                else if (log.action.includes('Membuka')) { actionIcon = 'fa-eye'; iconColor = 'bg-amber-50 text-amber-600'; }
+
+                const logHTML = `
+                    <div class="flex gap-4 group/log">
+                        <div class="flex flex-col items-center">
+                            <div class="w-8 h-8 ${iconColor} rounded-xl flex items-center justify-center text-xs shadow-sm group-hover/log:scale-110 transition-transform">
+                                <i class="fa-solid ${actionIcon}"></i>
+                            </div>
+                            <div class="w-px h-full bg-slate-100 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-6">
+                            <div class="flex justify-between items-start mb-1">
+                                <h4 class="text-xs font-black text-slate-800 tracking-tight leading-none">${log.user_nickname}</h4>
+                                <span class="text-[9px] font-black text-slate-300 uppercase whitespace-nowrap">${dateStr}, ${timeStr}</span>
+                            </div>
+                            <p class="text-[11px] font-bold text-slate-500 mb-1 leading-snug">${log.action}</p>
+                            ${log.details ? `
+                                <div class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-slate-50 border border-slate-100 rounded-md">
+                                    <span class="text-[8px] font-black text-slate-400 uppercase tracking-tighter">${log.details}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                historyList.innerHTML += logHTML;
+            });
+        }
+
         function togglePresenceModal(show) {
             if (show) {
                 presenceModal.classList.remove('hidden');
                 document.body.classList.add('modal-open');
+                // Auto switch to Online tab
+                switchTab('online');
             } else {
                 presenceModal.classList.add('hidden');
                 document.body.classList.remove('modal-open');
+            }
+        }
+
+        function switchTab(tab) {
+            if (tab === 'online') {
+                tabOnline.classList.add('text-indigo-600', 'border-indigo-600', 'border-b-2');
+                tabOnline.classList.remove('text-slate-400');
+                tabHistory.classList.remove('text-indigo-600', 'border-indigo-600', 'border-b-2');
+                tabHistory.classList.add('text-slate-400');
+                presenceList.classList.remove('hidden');
+                historyList.classList.add('hidden');
+                document.querySelector('.px-8.pb-8').classList.remove('hidden'); // Show Total Online
+            } else {
+                tabHistory.classList.add('text-indigo-600', 'border-indigo-600', 'border-b-2');
+                tabHistory.classList.remove('text-slate-400');
+                tabOnline.classList.remove('text-indigo-600', 'border-indigo-600', 'border-b-2');
+                tabOnline.classList.add('text-slate-400');
+                historyList.classList.remove('hidden');
+                presenceList.classList.add('hidden');
+                document.querySelector('.px-8.pb-8').classList.add('hidden'); // Hide Total Online
+                fetchHistory();
             }
         }
 
@@ -1048,6 +1215,8 @@
                 // 1. Hapus data dari tabel 'items'
                 const { error: dbError } = await supabase.from('items').delete().eq('id', item.id);
                 if (dbError) throw dbError;
+
+                logActivity('Hapus Data Barang', item.kode);
 
                 // 2. Hapus gambar dari Storage (jika ada)
                 if (item.gambar) {
@@ -1451,12 +1620,7 @@
 
                     // PERBAIKAN: Panggil update, TAPI JANGAN update cache lokal secara manual
                     await updateItem(id, updatedData);
-                    // HAPUS BLOK INI:
-                    // if (updatedItem) {
-                    //     const updatedId = updatedItem.id.toString();
-                    //     items = items.map(item => item.id.toString() === updatedId ? updatedItem : item);
-                    // }
-
+                    logActivity('Update Data Barang', updatedData.kode);
                 } else {
                     // ADD NEW
                     if (imageUrl !== undefined) {
@@ -1465,11 +1629,7 @@
 
                     // PERBAIKAN: Panggil add, TAPI JANGAN update cache lokal secara manual
                     await addItem(itemData);
-                    // HAPUS BLOK INI:
-                    // const newItem = await addItem(itemData);
-                    // if (newItem) {
-                    //      items.push(newItem);
-                    // }
+                    logActivity('Tambah Barang Baru', itemData.kode);
                 }
 
                 // PERBAIKAN: Hapus render manual. Biarkan realtime listener yang bekerja.
@@ -1544,9 +1704,16 @@
 
         // --- INITIALIZATION ---
         async function init() {
+            // Cek apakah ada session admin tersimpan
+            const isAdminLoggedIn = localStorage.getItem('isAdminSession') === 'true';
+
             // Tampilan default
-            showView('operator'); // Mulai dari tampilan operator
-            // showView('role'); // Uncomment ini jika ingin mulai dari pemilihan peran
+            if (isAdminLoggedIn) {
+                showView('admin');
+                userRole = 'Admin'; // Update variable global langsung sebelum inisialisasi presence
+            } else {
+                showView('operator');
+            }
 
             // Tombol Peran (disembunyikan, tapi logikanya ada)
             adminRoleBtn.addEventListener('click', () => {
@@ -1562,6 +1729,7 @@
                     okText: 'Ya, Keluar',
                     okClass: 'bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700',
                     onOk: () => {
+                        localStorage.removeItem('isAdminSession');
                         showView('operator');
                         updateRole('Operator');
                     },
@@ -1599,6 +1767,7 @@
                 e.preventDefault();
                 const pass = passwordInput.value;
                 if (pass === 'shinpo01') {
+                    localStorage.setItem('isAdminSession', 'true');
                     hidePasswordModal();
                     showView('admin');
                     updateRole('Admin');
@@ -1609,9 +1778,11 @@
             passwordCancelBtn.addEventListener('click', hidePasswordModal);
 
             // Presence Modal Events
-            if (trackingBtnOperator) trackingBtnOperator.addEventListener('click', () => togglePresenceModal(true));
             if (trackingBtnAdmin) trackingBtnAdmin.addEventListener('click', () => togglePresenceModal(true));
             if (closePresenceBtn) closePresenceBtn.addEventListener('click', () => togglePresenceModal(false));
+            if (tabOnline) tabOnline.addEventListener('click', () => switchTab('online'));
+            if (tabHistory) tabHistory.addEventListener('click', () => switchTab('history'));
+
             presenceModal.addEventListener('click', (e) => {
                 if (e.target === presenceModal.firstElementChild.parentElement) togglePresenceModal(false);
             });
