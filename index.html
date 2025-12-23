@@ -239,8 +239,18 @@
                 </div>
             </div>
 
+            <!-- Toggle Button for Form -->
+            <div class="mb-4 flex justify-start">
+                <button id="toggle-form-btn"
+                    class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg flex items-center gap-2 group transform active:scale-95">
+                    <i id="toggle-form-icon" class="fa-solid fa-plus transition-transform duration-300"></i>
+                    <span id="toggle-form-text">Tambah Data Barang</span>
+                </button>
+            </div>
+
             <!-- Form for adding/editing items -->
-            <div class="bg-white p-4 sm:p-8 rounded-2xl shadow-xl mb-8 border border-slate-200">
+            <div id="admin-form-container"
+                class="hidden bg-white p-4 sm:p-8 rounded-2xl shadow-xl mb-8 border border-slate-200 animate-fade-in">
                 <h2 id="form-title" class="text-2xl font-bold text-slate-800 mb-6">Tambah Barang Baru</h2>
                 <form id="item-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <input type="hidden" id="item-id">
@@ -393,22 +403,35 @@
                 </div>
 
                 <div class="relative">
-                    <div class="flex flex-col items-center mb-8">
+                    <div id="toggle-operator-list"
+                        class="flex flex-col items-center mb-8 cursor-pointer group select-none">
                         <span
                             class="text-indigo-600 font-black text-[8px] uppercase tracking-[0.4em] mb-2 opacity-70">Monitoring
                             Panel</span>
-                        <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight text-center uppercase">
-                            DAFTAR <span class="text-indigo-600">MASALAH</span>
-                        </h2>
+                        <div class="flex items-center gap-3">
+                            <h2
+                                class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight text-center uppercase">
+                                DAFTAR <span class="text-indigo-600">MASALAH</span>
+                            </h2>
+                            <i id="toggle-icon-operator"
+                                class="fa-solid fa-chevron-down text-slate-300 transition-transform duration-300 group-hover:text-indigo-500"></i>
+                        </div>
                         <div class="w-8 h-1 bg-indigo-600 rounded-full mt-3 shadow-lg shadow-indigo-100"></div>
+                        <p id="toggle-hint-operator"
+                            class="text-slate-400 text-[9px] font-bold uppercase tracking-[0.2em] mt-4 group-hover:text-indigo-500 transition-colors flex items-center gap-2">
+                            <span>Klik untuk melihat semua data</span>
+                            <i class="fa-solid fa-arrow-pointer animate-bounce text-[10px]"></i>
+                        </p>
                     </div>
 
-                    <div id="operator-item-list"
-                        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
-                        <div id="loading-spinner-operator"
-                            class="col-span-full text-center py-16 flex flex-col items-center animate-fade-in">
-                            <div class="spinner mb-5 shadow-inner"></div>
-                            <p class="text-slate-500 font-medium italic">Mengambil data terbaru...</p>
+                    <div id="operator-item-list-wrapper" class="hidden animate-fade-in">
+                        <div id="operator-item-list"
+                            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
+                            <div id="loading-spinner-operator"
+                                class="col-span-full text-center py-16 flex flex-col items-center animate-fade-in">
+                                <div class="spinner mb-5 shadow-inner"></div>
+                                <p class="text-slate-500 font-medium italic">Mengambil data terbaru...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -736,6 +759,10 @@
         const tabOnline = document.getElementById('tab-online');
         const tabHistory = document.getElementById('tab-history');
         const historyList = document.getElementById('history-list');
+        const toggleFormBtn = document.getElementById('toggle-form-btn');
+        const adminFormContainer = document.getElementById('admin-form-container');
+        const toggleFormIcon = document.getElementById('toggle-form-icon');
+        const toggleFormText = document.getElementById('toggle-form-text');
 
         let currentZoom = 1;
 
@@ -1649,6 +1676,9 @@
         }
 
         function handleEditClick(btn) {
+            // Auto open form
+            toggleAdminForm(true);
+
             const id = btn.dataset.id;
             // Bandingkan sebagai string karena dataset selalu string
             const item = items.find(i => i.id.toString() === id);
@@ -1700,6 +1730,36 @@
             formTitle.textContent = "Tambah Barang Baru";
             submitBtn.textContent = "Simpan";
             cancelEditBtn.classList.add('hidden');
+        }
+
+        function toggleAdminForm(show) {
+            if (!adminFormContainer) return;
+            if (show === undefined) show = adminFormContainer.classList.contains('hidden');
+
+            if (show) {
+                adminFormContainer.classList.remove('hidden');
+                if (toggleFormIcon) {
+                    toggleFormIcon.classList.replace('fa-plus', 'fa-minus');
+                    toggleFormIcon.classList.add('rotate-180');
+                }
+                if (toggleFormText) toggleFormText.textContent = 'Tutup Formulir';
+                if (toggleFormBtn) {
+                    toggleFormBtn.classList.replace('bg-indigo-600', 'bg-slate-600');
+                    toggleFormBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-slate-700');
+                }
+            } else {
+                adminFormContainer.classList.add('hidden');
+                if (toggleFormIcon) {
+                    toggleFormIcon.classList.replace('fa-minus', 'fa-plus');
+                    toggleFormIcon.classList.remove('rotate-180');
+                }
+                if (toggleFormText) toggleFormText.textContent = 'Tambah Data Barang';
+                if (toggleFormBtn) {
+                    toggleFormBtn.classList.replace('bg-slate-600', 'bg-indigo-600');
+                    toggleFormBtn.classList.replace('hover:bg-slate-700', 'hover:bg-indigo-700');
+                }
+                resetForm();
+            }
         }
 
         // --- INITIALIZATION ---
@@ -1819,6 +1879,39 @@
 
             // --- BARU: Tambah listener scroll untuk dots ---
             searchResultDiv.addEventListener('scroll', handleScrollUpdateDots);
+
+            // Toggle Operator List
+            const toggleOperatorBtn = document.getElementById('toggle-operator-list');
+            const operatorListWrapper = document.getElementById('operator-item-list-wrapper');
+            const toggleIconOperator = document.getElementById('toggle-icon-operator');
+
+            if (toggleOperatorBtn) {
+                const toggleHintOperator = document.getElementById('toggle-hint-operator');
+                toggleOperatorBtn.addEventListener('click', () => {
+                    const isHidden = operatorListWrapper.classList.contains('hidden');
+                    if (isHidden) {
+                        operatorListWrapper.classList.remove('hidden');
+                        toggleIconOperator.classList.add('rotate-180');
+                        if (toggleHintOperator) toggleHintOperator.innerHTML = '<span>Klik untuk menutup daftar</span> <i class="fa-solid fa-chevron-up text-[10px]"></i>';
+                    } else {
+                        operatorListWrapper.classList.add('hidden');
+                        toggleIconOperator.classList.remove('rotate-180');
+                        if (toggleHintOperator) toggleHintOperator.innerHTML = '<span>Klik untuk melihat semua data</span> <i class="fa-solid fa-arrow-pointer animate-bounce text-[10px]"></i>';
+                    }
+                });
+            }
+
+
+
+
+
+
+
+            if (toggleFormBtn) {
+                toggleFormBtn.addEventListener('click', () => toggleAdminForm());
+            }
+
+
 
             // Modal Gambar
             closeModalBtn.addEventListener('click', hideImageModal);
