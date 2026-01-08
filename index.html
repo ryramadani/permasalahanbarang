@@ -290,8 +290,8 @@
                     </div>
                 </div>
 
-                <!-- 'Tambah Data' Button (Floating Style) -->
-                <div class="relative z-10 w-full flex justify-start px-2">
+                <!-- 'Tambah Data' Button & Stats -->
+                <div class="relative z-10 w-full flex items-center justify-between px-2">
                     <button id="toggle-form-btn"
                         class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg flex items-center gap-2 group active:scale-95 transform hover:-translate-y-0.5 text-xs">
                         <div class="bg-white/20 rounded-md p-0.5 backdrop-blur-sm">
@@ -300,6 +300,21 @@
                         </div>
                         <span id="toggle-form-text" class="tracking-wide">Tambah Data Barang</span>
                     </button>
+
+                    <!-- Stats Card -->
+                    <div
+                        class="bg-white/60 backdrop-blur-xl px-4 py-2 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20">
+                        <div
+                            class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-sm">
+                            <i class="fa-solid fa-boxes-stacked text-[10px]"></i>
+                        </div>
+                        <div>
+                            <p
+                                class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1">
+                                Total Kode</p>
+                            <p id="total-items-count" class="text-sm font-black text-slate-800 leading-none">0</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -363,152 +378,181 @@
                         <h2 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight text-center uppercase">
                             MASALAH <span class="text-indigo-600">BARANG</span>
                         </h2>
-                        <div class="w-8 h-1 bg-indigo-600 rounded-full mt-3 shadow-lg shadow-indigo-100"></div>
-                    </div>
+                        <div class="w-8 h-1 bg-indigo-600 rounded-full mt-3 mb-4 shadow-lg shadow-indigo-100"></div>
 
-                    <div id="item-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Item cards will be injected here -->
-                        <div id="loading-spinner-admin"
-                            class="md:col-span-2 lg:col-span-3 text-center py-12 flex flex-col items-center">
-                            <div class="spinner mb-4 shadow-lg shadow-indigo-100"></div>
-                            <p class="text-slate-500 font-medium italic">Sinkronisasi data...</p>
+                        <!-- Tombol Toggle (Dipindah ke Atas) -->
+                        <div class="mb-8">
+                            <button id="toggle-admin-items-btn"
+                                class="flex items-center gap-2 px-6 py-2 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[9px] uppercase tracking-[0.2em] transition-all group active:scale-95 border border-transparent shadow-lg shadow-indigo-100">
+                                <i id="toggle-admin-items-icon"
+                                    class="fa-solid fa-eye transition-transform group-hover:scale-110"></i>
+                                <span id="toggle-admin-items-text">Tampilkan Daftar</span>
+                            </button>
                         </div>
                     </div>
+
+                    <div id="admin-items-content" class="hidden w-full transition-all duration-500">
+                        <!-- Search Bar Admin -->
+                        <div class="w-full max-w-xl mx-auto mb-10">
+                            <div class="relative group">
+                                <div
+                                    class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none transition-colors group-focus-within:text-indigo-600 text-slate-400">
+                                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                                </div>
+                                <input type="text" id="search-input-admin"
+                                    class="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white transition-all outline-none font-bold text-slate-700 placeholder:text-slate-400 placeholder:font-medium"
+                                    placeholder="Cari berdasarkan kode atau nama barang...">
+                                <div id="search-clear-admin"
+                                    class="hidden absolute inset-y-0 right-0 pr-5 flex items-center cursor-pointer text-slate-300 hover:text-rose-500 transition-colors">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="item-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Item cards will be injected here -->
+                            <div id="loading-spinner-admin"
+                                class="md:col-span-2 lg:col-span-3 text-center py-12 flex flex-col items-center">
+                                <div class="spinner mb-4 shadow-lg shadow-indigo-100"></div>
+                                <p class="text-slate-500 font-medium italic">Sinkronisasi data...</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <!-- AKHIR BAGIAN PENGGANTIAN -->
-
         </div>
+    </div>
+    <!-- AKHIR BAGIAN PENGGANTIAN -->
 
-        <!-- Operator View -->
-        <div id="operator-view" class="hidden w-full max-w-6xl mx-auto p-2 sm:p-4 md:p-6">
-            <!-- Hero Wrapper with Animated Background -->
-            <div class="relative w-full flex flex-col items-center mb-10 pt-2">
-                <!-- Background Animation Elements (Premium & Subtle) -->
+    </div>
+
+    <!-- Operator View -->
+    <div id="operator-view" class="hidden w-full max-w-6xl mx-auto p-2 sm:p-4 md:p-6">
+        <!-- Hero Wrapper with Animated Background -->
+        <div class="relative w-full flex flex-col items-center mb-10 pt-2">
+            <!-- Background Animation Elements (Premium & Subtle) -->
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-full max-w-5xl overflow-visible -z-0 pointer-events-none">
                 <div
-                    class="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-full max-w-5xl overflow-visible -z-0 pointer-events-none">
-                    <div
-                        class="absolute top-10 left-10 w-72 h-72 bg-indigo-300/30 rounded-full blur-[60px] animate-blob mix-blend-multiply filter opacity-70">
-                    </div>
-                    <div
-                        class="absolute top-10 right-10 w-72 h-72 bg-purple-300/30 rounded-full blur-[60px] animate-blob animation-delay-2000 mix-blend-multiply filter opacity-70">
-                    </div>
-                    <div
-                        class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-72 h-72 bg-pink-300/30 rounded-full blur-[60px] animate-blob animation-delay-4000 mix-blend-multiply filter opacity-70">
-                    </div>
+                    class="absolute top-10 left-10 w-72 h-72 bg-indigo-300/30 rounded-full blur-[60px] animate-blob mix-blend-multiply filter opacity-70">
+                </div>
+                <div
+                    class="absolute top-10 right-10 w-72 h-72 bg-purple-300/30 rounded-full blur-[60px] animate-blob animation-delay-2000 mix-blend-multiply filter opacity-70">
+                </div>
+                <div
+                    class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-72 h-72 bg-pink-300/30 rounded-full blur-[60px] animate-blob animation-delay-4000 mix-blend-multiply filter opacity-70">
+                </div>
+            </div>
+
+            <!-- Header Baru: Sejajar & Elegan (z-10 added) -->
+            <div
+                class="relative z-10 flex items-center justify-between gap-1 sm:gap-4 mb-8 w-full max-w-4xl mx-auto px-2 sm:px-6 bg-white/60 backdrop-blur-xl py-4 rounded-[2rem] border border-white/60 shadow-lg shadow-indigo-100/20 mt-2">
+                <!-- Hamburger Menu Sejajar -->
+                <button id="menu-btn-operator"
+                    class="p-3 sm:p-4 rounded-2xl text-slate-500 hover:text-indigo-600 hover:bg-white/80 transition-all active:scale-90 flex-shrink-0">
+                    <i class="fa-solid fa-bars-staggered text-xl"></i>
+                </button>
+
+                <!-- Judul Terpusat -->
+                <div class="text-center flex-1 px-2 sm:px-4 min-w-0">
+                    <h1
+                        class="text-[15px] xs:text-lg sm:text-2xl font-black text-slate-900 tracking-tighter uppercase whitespace-nowrap leading-none mb-1">
+                        PERMASALAHAN BARANG</h1>
+                    <p
+                        class="text-slate-500 text-[7px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] whitespace-nowrap">
+                        Sistem Monitoring Terpadu</p>
                 </div>
 
-                <!-- Header Baru: Sejajar & Elegan (z-10 added) -->
-                <div
-                    class="relative z-10 flex items-center justify-between gap-1 sm:gap-4 mb-8 w-full max-w-4xl mx-auto px-2 sm:px-6 bg-white/60 backdrop-blur-xl py-4 rounded-[2rem] border border-white/60 shadow-lg shadow-indigo-100/20 mt-2">
-                    <!-- Hamburger Menu Sejajar -->
-                    <button id="menu-btn-operator"
-                        class="p-3 sm:p-4 rounded-2xl text-slate-500 hover:text-indigo-600 hover:bg-white/80 transition-all active:scale-90 flex-shrink-0">
-                        <i class="fa-solid fa-bars-staggered text-xl"></i>
+                <!-- Right Actions Group -->
+                <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                    <!-- Refresh Button Sejajar (Elegant Design) -->
+                    <button id="operator-refresh-btn"
+                        class="p-2 sm:p-4 rounded-xl sm:rounded-2xl text-slate-500 hover:text-amber-600 hover:bg-white/80 transition-all active:scale-90 group">
+                        <i
+                            class="fa-solid fa-rotate text-base sm:text-xl group-hover:rotate-180 transition-transform duration-500"></i>
                     </button>
-
-                    <!-- Judul Terpusat -->
-                    <div class="text-center flex-1 px-2 sm:px-4 min-w-0">
-                        <h1
-                            class="text-[15px] xs:text-lg sm:text-2xl font-black text-slate-900 tracking-tighter uppercase whitespace-nowrap leading-none mb-1">
-                            PERMASALAHAN BARANG</h1>
-                        <p
-                            class="text-slate-500 text-[7px] sm:text-[10px] font-extrabold uppercase tracking-[0.2em] whitespace-nowrap">
-                            Sistem Monitoring Terpadu</p>
-                    </div>
-
-                    <!-- Right Actions Group -->
-                    <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-                        <!-- Refresh Button Sejajar (Elegant Design) -->
-                        <button id="operator-refresh-btn"
-                            class="p-2 sm:p-4 rounded-xl sm:rounded-2xl text-slate-500 hover:text-amber-600 hover:bg-white/80 transition-all active:scale-90 group">
-                            <i
-                                class="fa-solid fa-rotate text-base sm:text-xl group-hover:rotate-180 transition-transform duration-500"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Search Section: Premium Floating Bar (z-10 added) -->
-                <div
-                    class="relative z-10 w-full max-w-lg mx-auto bg-white/80 backdrop-blur-md p-1.5 rounded-[2rem] shadow-xl shadow-indigo-200/40 border border-white/60 transition-all hover:shadow-indigo-200/60 hover:scale-[1.01]">
-                    <div class="flex items-center gap-1.5 p-1 sm:p-1.5">
-                        <!-- Bagian Tengah: Input Field -->
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-4 pointer-events-none">
-                                <span
-                                    class="text-[8px] sm:text-[9px] font-black bg-slate-100 px-1.5 py-0.5 rounded-md text-slate-500 border border-slate-200/50 tracking-tighter uppercase whitespace-nowrap">Kode</span>
-                            </div>
-                            <input type="text" id="search-input" placeholder="Cari Masalah Barang..."
-                                class="w-full pl-12 sm:pl-16 pr-3 py-2.5 sm:py-3 bg-transparent border-none focus:ring-0 outline-none uppercase font-bold text-slate-700 placeholder-slate-400 text-xs sm:text-sm">
-                        </div>
-
-                        <!-- Bagian Kanan: Tombol Cari -->
-                        <button id="search-btn"
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 sm:py-3 px-4 sm:px-8 rounded-2xl shadow-lg shadow-indigo-300 transition-all active:scale-90 flex items-center gap-2 text-xs group shrink-0">
-                            <span class="hidden xs:inline">CARI</span>
-                            <i
-                                class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <!-- Search Result -->
-            <!-- PERUBAHAN: Tambahkan class 'no-scrollbar' dan ubah margin bottom -->
-            <div id="search-result"
-                class="hidden mb-4 flex overflow-x-auto space-x-4 pb-4 md:block md:overflow-x-visible md:space-x-0 md:pb-0 no-scrollbar">
-                <!-- Hasil pencarian akan muncul di sini -->
-            </div>
-
-            <!-- DIV BARU: Untuk Dot Navigasi -->
-            <div id="search-dots" class="hidden justify-center space-x-2 mb-10 md:hidden">
-                <!-- Dots akan di-generate oleh JS -->
-            </div>
-
-
-            <!-- Operator Item List: Desain Premium -->
-            <section id="operator-item-list-container"
-                class="bg-white rounded-t-[3rem] sm:rounded-[3rem] shadow-2xl shadow-indigo-100/50 border border-slate-100 p-8 sm:p-12 mt-2 overflow-hidden relative">
-                <!-- Dekorasi Background -->
-                <div
-                    class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-60">
-                </div>
-
-                <div class="relative">
-                    <div id="toggle-operator-list"
-                        class="flex flex-col items-center mb-8 cursor-pointer group select-none">
-                        <span
-                            class="text-indigo-600 font-black text-[8px] uppercase tracking-[0.4em] mb-2 opacity-70">Monitoring
-                            Panel</span>
-                        <div class="flex items-center gap-3">
-                            <h2
-                                class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight text-center uppercase">
-                                DAFTAR <span class="text-indigo-600">MASALAH</span>
-                            </h2>
-                            <i id="toggle-icon-operator"
-                                class="fa-solid fa-chevron-down text-slate-300 transition-transform duration-300 group-hover:text-indigo-500"></i>
+            <!-- Search Section: Premium Floating Bar (z-10 added) -->
+            <div
+                class="relative z-10 w-full max-w-lg mx-auto bg-white/80 backdrop-blur-md p-1.5 rounded-[2rem] shadow-xl shadow-indigo-200/40 border border-white/60 transition-all hover:shadow-indigo-200/60 hover:scale-[1.01]">
+                <div class="flex items-center gap-1.5 p-1 sm:p-1.5">
+                    <!-- Bagian Tengah: Input Field -->
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-4 pointer-events-none">
+                            <span
+                                class="text-[8px] sm:text-[9px] font-black bg-slate-100 px-1.5 py-0.5 rounded-md text-slate-500 border border-slate-200/50 tracking-tighter uppercase whitespace-nowrap">Kode</span>
                         </div>
-                        <div class="w-8 h-1 bg-indigo-600 rounded-full mt-3 shadow-lg shadow-indigo-100"></div>
-                        <p id="toggle-hint-operator"
-                            class="text-slate-400 text-[9px] font-bold uppercase tracking-[0.2em] mt-4 group-hover:text-indigo-500 transition-colors flex items-center gap-2">
-                            <span>Klik untuk melihat semua data</span>
-                            <i class="fa-solid fa-arrow-pointer animate-bounce text-[10px]"></i>
-                        </p>
+                        <input type="text" id="search-input" placeholder="Cari Masalah Barang..."
+                            class="w-full pl-12 sm:pl-16 pr-3 py-2.5 sm:py-3 bg-transparent border-none focus:ring-0 outline-none uppercase font-bold text-slate-700 placeholder-slate-400 text-xs sm:text-sm">
                     </div>
 
-                    <div id="operator-item-list-wrapper" class="hidden animate-fade-in">
-                        <div id="operator-item-list"
-                            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
-                            <div id="loading-spinner-operator"
-                                class="col-span-full text-center py-16 flex flex-col items-center animate-fade-in">
-                                <div class="spinner mb-5 shadow-inner"></div>
-                                <p class="text-slate-500 font-medium italic">Mengambil data terbaru...</p>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Bagian Kanan: Tombol Cari -->
+                    <button id="search-btn"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 sm:py-3 px-4 sm:px-8 rounded-2xl shadow-lg shadow-indigo-300 transition-all active:scale-90 flex items-center gap-2 text-xs group shrink-0">
+                        <span class="hidden xs:inline">CARI</span>
+                        <i
+                            class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                    </button>
                 </div>
-            </section>
+            </div>
         </div>
+
+        <!-- Search Result -->
+        <!-- PERUBAHAN: Tambahkan class 'no-scrollbar' dan ubah margin bottom -->
+        <div id="search-result"
+            class="hidden mb-4 flex overflow-x-auto space-x-4 pb-4 md:block md:overflow-x-visible md:space-x-0 md:pb-0 no-scrollbar">
+            <!-- Hasil pencarian akan muncul di sini -->
+        </div>
+
+        <!-- DIV BARU: Untuk Dot Navigasi -->
+        <div id="search-dots" class="hidden justify-center space-x-2 mb-10 md:hidden">
+            <!-- Dots akan di-generate oleh JS -->
+        </div>
+
+
+        <!-- Operator Item List: Desain Premium -->
+        <section id="operator-item-list-container"
+            class="bg-white rounded-t-[3rem] sm:rounded-[3rem] shadow-2xl shadow-indigo-100/50 border border-slate-100 p-8 sm:p-12 mt-2 overflow-hidden relative">
+            <!-- Dekorasi Background -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-60">
+            </div>
+
+            <div class="relative">
+                <div id="toggle-operator-list" class="flex flex-col items-center mb-8 cursor-pointer group select-none">
+                    <span
+                        class="text-indigo-600 font-black text-[8px] uppercase tracking-[0.4em] mb-2 opacity-70">Monitoring
+                        Panel</span>
+                    <div class="flex items-center gap-3">
+                        <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight text-center uppercase">
+                            DAFTAR <span class="text-indigo-600">MASALAH</span>
+                        </h2>
+                        <i id="toggle-icon-operator"
+                            class="fa-solid fa-chevron-down text-slate-300 transition-transform duration-300 group-hover:text-indigo-500"></i>
+                    </div>
+                    <div class="w-8 h-1 bg-indigo-600 rounded-full mt-3 shadow-lg shadow-indigo-100"></div>
+                    <p id="toggle-hint-operator"
+                        class="text-slate-400 text-[9px] font-bold uppercase tracking-[0.2em] mt-4 group-hover:text-indigo-500 transition-colors flex items-center gap-2">
+                        <span>Klik untuk melihat semua data</span>
+                        <i class="fa-solid fa-arrow-pointer animate-bounce text-[10px]"></i>
+                    </p>
+                </div>
+
+                <div id="operator-item-list-wrapper" class="hidden animate-fade-in">
+                    <div id="operator-item-list"
+                        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
+                        <div id="loading-spinner-operator"
+                            class="col-span-full text-center py-16 flex flex-col items-center animate-fade-in">
+                            <div class="spinner mb-5 shadow-inner"></div>
+                            <p class="text-slate-500 font-medium italic">Mengambil data terbaru...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     </div> <!-- End of #app -->
 
@@ -833,8 +877,15 @@
         const historyList = document.getElementById('history-list');
         const toggleFormBtn = document.getElementById('toggle-form-btn');
         const adminFormContainer = document.getElementById('admin-form-container');
+        const totalItemsCount = document.getElementById('total-items-count');
         const toggleFormIcon = document.getElementById('toggle-form-icon');
         const toggleFormText = document.getElementById('toggle-form-text');
+        const searchInputAdmin = document.getElementById('search-input-admin');
+        const searchClearAdmin = document.getElementById('search-clear-admin');
+        const adminItemsContent = document.getElementById('admin-items-content');
+        const toggleAdminItemsBtn = document.getElementById('toggle-admin-items-btn');
+        const toggleAdminItemsIcon = document.getElementById('toggle-admin-items-icon');
+        const toggleAdminItemsText = document.getElementById('toggle-admin-items-text');
 
         let currentZoom = 1;
 
@@ -1344,26 +1395,33 @@
         }
 
         // --- RENDER FUNCTIONS ---
-        function renderAdminList() {
+        function renderAdminList(filteredItems = null) {
             if (!itemListDiv) return;
+
+            const itemsToRender = filteredItems || items;
+
+            // --- Update Total Count Stats ---
+            if (totalItemsCount && !filteredItems) {
+                totalItemsCount.textContent = items.length;
+            }
+
             itemListDiv.innerHTML = ''; // Kosongkan daftar sebelum render ulang
 
             // Tampilkan spinner jika perlu (jika items kosong dan loading belum selesai)
-            const isLoading = items.length === 0 && loadingSpinnerAdmin && !loadingSpinnerAdmin.classList.contains('hidden');
+            const isLoading = itemsToRender.length === 0 && loadingSpinnerAdmin && !loadingSpinnerAdmin.classList.contains('hidden') && !filteredItems;
             if (loadingSpinnerAdmin) loadingSpinnerAdmin.classList.toggle('hidden', !isLoading);
 
-            if (items.length === 0 && !isLoading) {
-                // PERBAIKAN: Sesuaikan teks "belum ada data" dengan desain container baru
-                itemListDiv.innerHTML = `<p class="text-slate-800 font-semibold text-lg col-span-full text-center py-10">Belum ada data barang.</p>`;
+            if (itemsToRender.length === 0) {
+                const msg = filteredItems ? "Tidak ada barang yang cocok dengan pencarian." : "Belum ada data barang.";
+                itemListDiv.innerHTML = `<p class="text-slate-500 font-bold text-lg col-span-full text-center py-10 opacity-60">${msg}</p>`;
                 return;
             }
 
-
-            items.forEach(item => {
+            itemsToRender.forEach(item => {
                 const itemCardHTML = `
-                <div class="card-item group bg-white rounded-[2.5rem] shadow-sm border border-slate-200/80 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 flex flex-col h-auto sm:h-[450px]">
+                <div class="card-item group bg-white rounded-[2.5rem] shadow-sm border border-slate-200/80 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 flex flex-col h-auto sm:min-h-[480px]">
                     <!-- Foto Barang -->
-                    <div class="relative h-56 sm:h-64 overflow-hidden flex-shrink-0 p-3">
+                    <div class="relative h-56 sm:h-60 overflow-hidden flex-shrink-0 p-3">
                         <img src="${item.gambar || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'}" alt="${item.nama}" 
                              class="w-full h-full object-cover rounded-3xl transition-transform duration-700 group-hover:scale-105 cursor-pointer shadow-sm border border-slate-100"
                              onclick="window.app.showImageModal('${item.gambar || ''}')"
@@ -1375,21 +1433,21 @@
 
                     <div class="p-6 flex flex-col flex-grow overflow-hidden">
                         <!-- Judul: Nama + Kode -->
-                        <div class="mb-5 flex-shrink-0">
+                        <div class="mb-4 flex-shrink-0">
                             <h3 class="text-xl font-black text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors uppercase truncate">
                                 ${item.nama || 'Tanpa Nama'} <span class="text-indigo-600 opacity-70 ml-2 font-bold">${item.kode || ''}</span>
                             </h3>
                         </div>
 
                         <!-- Box Masalah -->
-                        <div class="bg-slate-50 border border-slate-200/60 rounded-3xl p-5 transition-all hover:bg-white hover:shadow-lg hover:shadow-indigo-50/50 group/alert overflow-hidden">
-                            <div class="flex items-start gap-4">
+                        <div class="bg-slate-50 border border-slate-200/60 rounded-3xl p-5 transition-all hover:bg-white hover:shadow-lg hover:shadow-indigo-50/50 group/alert overflow-hidden flex-grow flex items-start">
+                            <div class="flex items-start gap-4 w-full">
                                 <div class="flex-shrink-0 w-10 h-10 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center text-amber-500">
                                     <i class="fa-solid fa-triangle-exclamation text-sm"></i>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Diagnosa</span>
-                                    <p class="text-[14px] font-bold text-slate-600 leading-snug break-words line-clamp-2">${item.masalah || '-'}</p>
+                                    <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 opacity-70">Diagnosa</span>
+                                    <p class="text-[14px] font-bold text-slate-600 leading-snug break-words line-clamp-4">${item.masalah || '-'}</p>
                                 </div>
                             </div>
                         </div>
@@ -1433,9 +1491,9 @@
 
             items.forEach(item => {
                 const itemCard = `
-                <div class="card-item group bg-white rounded-[2.5rem] shadow-sm border border-slate-200/80 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 flex flex-col h-auto sm:h-[420px]">
+                <div class="card-item group bg-white rounded-[2.5rem] shadow-sm border border-slate-200/80 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 flex flex-col h-auto sm:min-h-[460px]">
                     <!-- Foto Area -->
-                    <div class="relative h-52 sm:h-60 overflow-hidden flex-shrink-0 p-3">
+                    <div class="relative h-52 sm:h-56 overflow-hidden flex-shrink-0 p-3">
                         <img src="${item.gambar || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'}" alt="${item.nama}" 
                              class="w-full h-full object-cover rounded-[1.8rem] transition-transform duration-700 group-hover:scale-110 cursor-pointer shadow-md border border-slate-100"
                              onclick="window.app.showImageModal('${item.gambar || ''}')"
@@ -1451,14 +1509,14 @@
                         </div>
 
                         <!-- Diagnosis Box -->
-                        <div class="bg-indigo-50/30 border border-indigo-100/50 rounded-[2rem] p-4 transition-all hover:bg-white hover:shadow-lg hover:shadow-indigo-100/50 group/alert overflow-hidden flex-grow flex items-center">
-                            <div class="flex items-center gap-4 w-full">
+                        <div class="bg-indigo-50/30 border border-indigo-100/50 rounded-[2rem] p-5 transition-all hover:bg-white hover:shadow-lg hover:shadow-indigo-100/50 group/alert overflow-hidden flex-grow flex items-start">
+                            <div class="flex items-start gap-4 w-full">
                                 <div class="flex-shrink-0 w-10 h-10 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-amber-500">
                                     <i class="fa-solid fa-triangle-exclamation text-sm"></i>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <span class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 opacity-70">Laporan Diagnosa</span>
-                                    <p class="text-[14px] sm:text-[15px] font-black text-slate-700 leading-snug break-words line-clamp-2">${item.masalah || '-'}</p>
+                                    <span class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5 opacity-70">Laporan Diagnosa</span>
+                                    <p class="text-[14px] sm:text-[15px] font-black text-slate-700 leading-snug break-words line-clamp-4">${item.masalah || '-'}</p>
                                 </div>
                             </div>
                         </div>
@@ -1735,8 +1793,14 @@
                 // renderAdminList();
                 // renderOperatorList();
 
-                // CUKUP reset form.
+                // CUKUP reset form dan tutup form otomatis
                 resetForm();
+                toggleAdminForm(false);
+
+                // Scroll kembali ke dashboard (item list)
+                if (itemListContainer) {
+                    itemListContainer.scrollIntoView({ behavior: 'smooth' });
+                }
 
             } catch (error) {
                 console.error("Gagal submit form:", error);
@@ -1981,6 +2045,57 @@
 
             if (toggleFormBtn) {
                 toggleFormBtn.addEventListener('click', () => toggleAdminForm());
+            }
+
+            // --- Admin Search Logic ---
+            if (searchInputAdmin) {
+                searchInputAdmin.addEventListener('input', (e) => {
+                    const query = e.target.value.trim().toLowerCase();
+
+                    // Show/hide clear button
+                    if (searchClearAdmin) {
+                        searchClearAdmin.classList.toggle('hidden', !query);
+                    }
+
+                    if (!query) {
+                        renderAdminList();
+                        return;
+                    }
+
+                    const filtered = items.filter(item =>
+                        (item.kode && item.kode.toLowerCase().includes(query)) ||
+                        (item.nama && item.nama.toLowerCase().includes(query))
+                    );
+                    renderAdminList(filtered);
+                });
+            }
+
+            if (searchClearAdmin) {
+                searchClearAdmin.addEventListener('click', () => {
+                    searchInputAdmin.value = '';
+                    searchClearAdmin.classList.add('hidden');
+                    renderAdminList();
+                });
+            }
+
+            // --- Toggle Admin Items Visibility ---
+            if (toggleAdminItemsBtn) {
+                toggleAdminItemsBtn.addEventListener('click', () => {
+                    const isHidden = adminItemsContent.classList.contains('hidden');
+                    if (isHidden) {
+                        adminItemsContent.classList.remove('hidden');
+                        toggleAdminItemsIcon.classList.replace('fa-eye', 'fa-eye-slash');
+                        toggleAdminItemsText.textContent = 'Sembunyikan Daftar';
+                        toggleAdminItemsBtn.classList.replace('bg-indigo-600', 'bg-slate-100');
+                        toggleAdminItemsBtn.classList.replace('text-white', 'text-slate-500');
+                    } else {
+                        adminItemsContent.classList.add('hidden');
+                        toggleAdminItemsIcon.classList.replace('fa-eye-slash', 'fa-eye');
+                        toggleAdminItemsText.textContent = 'Tampilkan Daftar';
+                        toggleAdminItemsBtn.classList.replace('bg-slate-100', 'bg-indigo-600');
+                        toggleAdminItemsBtn.classList.replace('text-slate-500', 'text-white');
+                    }
+                });
             }
 
 
