@@ -271,48 +271,84 @@
 
                     <!-- Center: Title -->
                     <h1
-                        class="text-xl sm:text-3xl font-black text-slate-800 tracking-tight uppercase flex-1 text-center whitespace-nowrap">
+                        class="text-lg xs:text-xl sm:text-3xl font-black text-slate-800 tracking-tight uppercase flex-1 text-center px-2">
                         Dashboard <span class="text-indigo-600">Admin</span>
                     </h1>
 
                     <!-- Right: Actions -->
-                    <div class="flex items-center gap-2 sm:w-32 justify-end">
+                    <div class="flex items-center gap-1.5 sm:gap-2 sm:w-32 justify-end">
                         <button id="tracking-btn-admin"
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-md hover:shadow-indigo-200 transition-all active:scale-95 flex items-center gap-2 text-sm group">
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-2.5 sm:py-2.5 sm:px-4 rounded-xl shadow-md hover:shadow-indigo-200 transition-all active:scale-95 flex items-center gap-2 text-sm group">
                             <i class="fa-solid fa-users group-hover:scale-110 transition-transform"></i>
-                            <span class="hidden sm:inline">Pengunjung</span>
+                            <span class="hidden lg:inline">Pengunjung</span>
                         </button>
                         <button id="admin-logout-btn"
-                            class="bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-md hover:shadow-rose-200 transition-all active:scale-95 text-sm group">
-                            <span class="hidden sm:inline">Keluar</span>
-                            <i class="fa-solid fa-power-off sm:hidden group-hover:scale-110 transition-transform"></i>
+                            class="bg-rose-500 hover:bg-rose-600 text-white font-bold p-2.5 sm:py-2.5 sm:px-4 rounded-xl shadow-md hover:shadow-rose-200 transition-all active:scale-95 text-sm group">
+                            <span class="hidden lg:inline">Keluar</span>
+                            <i class="fa-solid fa-power-off group-hover:scale-110 transition-transform"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- 'Tambah Data' Button & Stats -->
-                <div class="relative z-10 w-full flex items-center justify-between px-2">
+                <div
+                    class="relative z-10 w-full flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 px-2">
                     <button id="toggle-form-btn"
-                        class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg flex items-center gap-2 group active:scale-95 transform hover:-translate-y-0.5 text-xs">
-                        <div class="bg-white/20 rounded-md p-0.5 backdrop-blur-sm">
+                        class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-3 group active:scale-95 transform hover:-translate-y-0.5 text-sm">
+                        <div class="bg-white/20 rounded-lg p-1 backdrop-blur-sm">
                             <i id="toggle-form-icon"
-                                class="fa-solid fa-plus text-white text-[10px] transition-transform duration-300 group-hover:rotate-90"></i>
+                                class="fa-solid fa-plus text-white text-xs transition-transform duration-300 group-hover:rotate-90"></i>
                         </div>
-                        <span id="toggle-form-text" class="tracking-wide">Tambah Data Barang</span>
+                        <span id="toggle-form-text"
+                            class="font-black uppercase tracking-widest text-[10px] sm:text-xs">Tambah Data
+                            Barang</span>
                     </button>
 
-                    <!-- Stats Card -->
-                    <div
-                        class="bg-white/60 backdrop-blur-xl px-4 py-2 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20">
+                    <!-- Stats Group -->
+                    <div class="grid grid-cols-2 lg:grid-cols-3 items-center gap-3">
+                        <!-- Stat Item: Total Permasalahan -->
                         <div
-                            class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-sm">
-                            <i class="fa-solid fa-boxes-stacked text-[10px]"></i>
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-boxes-stacked text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p
+                                    class="text-[7px] sm:text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1 truncate">
+                                    Total Masalah</p>
+                                <p id="total-items-count" class="text-base font-black text-slate-800 leading-none">0</p>
+                            </div>
                         </div>
-                        <div>
-                            <p
-                                class="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1">
-                                Total Kode</p>
-                            <p id="total-items-count" class="text-sm font-black text-slate-800 leading-none">0</p>
+
+                        <!-- Stat Item: Total Kode -->
+                        <div
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-barcode text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p
+                                    class="text-[7px] sm:text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1 truncate">
+                                    Total Kode</p>
+                                <p id="total-codes-count" class="text-base font-black text-slate-800 leading-none">0</p>
+                            </div>
+                        </div>
+
+                        <!-- Stat Item: Masalah Hari Ini -->
+                        <div
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20 col-span-2 lg:col-span-1">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-calendar-plus text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p
+                                    class="text-[7px] sm:text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1 truncate">
+                                    Masalah Hari Ini</p>
+                                <p id="today-items-count" class="text-base font-black text-slate-800 leading-none">0</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -335,6 +371,12 @@
                             Barang</label>
                         <input type="text" id="nama-barang" required
                             class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition focus:bg-slate-50 uppercase">
+                    </div>
+                    <div>
+                        <label for="tanggal" class="block text-sm font-medium text-slate-700 mb-2">Tanggal
+                            Temuan</label>
+                        <input type="date" id="tanggal" required
+                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition focus:bg-slate-50">
                     </div>
                     <div class="md:col-span-2">
                         <label for="permasalahan"
@@ -881,6 +923,8 @@
         const toggleFormBtn = document.getElementById('toggle-form-btn');
         const adminFormContainer = document.getElementById('admin-form-container');
         const totalItemsCount = document.getElementById('total-items-count');
+        const totalCodesCount = document.getElementById('total-codes-count');
+        const todayItemsCount = document.getElementById('today-items-count');
         const toggleFormIcon = document.getElementById('toggle-form-icon');
         const toggleFormText = document.getElementById('toggle-form-text');
         const searchInputAdmin = document.getElementById('search-input-admin');
@@ -1404,8 +1448,15 @@
             const itemsToRender = filteredItems || items;
 
             // --- Update Total Count Stats ---
-            if (totalItemsCount && !filteredItems) {
+            if (totalItemsCount && totalCodesCount && todayItemsCount && !filteredItems) {
                 totalItemsCount.textContent = items.length;
+                const uniqueCodes = new Set(items.map(item => (item.kode || '').trim().toUpperCase())).size;
+                totalCodesCount.textContent = uniqueCodes;
+
+                // Hitung Masalah Hari Ini
+                const today = new Date().toISOString().split('T')[0];
+                const todayCount = items.filter(item => item.tanggal === today).length;
+                todayItemsCount.textContent = todayCount;
             }
 
             itemListDiv.innerHTML = ''; // Kosongkan daftar sebelum render ulang
@@ -1440,6 +1491,10 @@
                             <h3 class="text-xl font-black text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors uppercase truncate">
                                 ${item.nama || 'Tanpa Nama'} <span class="text-indigo-600 opacity-70 ml-2 font-bold">${item.kode || ''}</span>
                             </h3>
+                            <div class="flex items-center gap-2 mt-1">
+                                <i class="fa-solid fa-calendar-day text-[10px] text-slate-400"></i>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">${item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</span>
+                            </div>
                         </div>
 
                         <!-- Box Masalah -->
@@ -1509,6 +1564,10 @@
                             <h3 class="text-xl sm:text-2xl font-black text-slate-900 leading-none group-hover:text-indigo-600 transition-colors uppercase truncate tracking-tighter">
                                 ${item.nama || 'Tanpa Nama'} <span class="text-indigo-600/60 ml-1 font-bold italic">${item.kode || ''}</span>
                             </h3>
+                            <div class="flex items-center gap-2 mt-2">
+                                <i class="fa-solid fa-calendar-day text-[10px] text-slate-400"></i>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">${item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</span>
+                            </div>
                         </div>
 
                         <!-- Diagnosis Box -->
@@ -1559,6 +1618,10 @@
                                 <h3 class="text-xl md:text-4xl font-black text-slate-800 leading-tight uppercase tracking-tight truncate">
                                     ${item.nama || 'Nama Barang'} <span class="text-indigo-600/60 ml-2">${item.kode || ''}</span>
                                 </h3>
+                                <div class="flex items-center gap-2 mt-1 md:mt-3">
+                                    <i class="fa-solid fa-calendar-day text-xs text-indigo-400"></i>
+                                    <span class="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-tight">${item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</span>
+                                </div>
                             </div>
 
                             <div class="bg-white rounded-[2rem] p-5 md:p-6 border border-slate-200/60 shadow-sm relative group/info overflow-hidden flex-shrink-0">
@@ -1734,6 +1797,7 @@
                 kode: document.getElementById('kode-barang').value.toUpperCase(),
                 nama: document.getElementById('nama-barang').value.toUpperCase(),
                 masalah: document.getElementById('permasalahan').value.toUpperCase(),
+                tanggal: document.getElementById('tanggal').value, // Simpan tanggal
                 // gambar akan ditambahkan nanti
             };
 
@@ -1826,6 +1890,7 @@
                 document.getElementById('item-id').value = item.id;
                 document.getElementById('kode-barang').value = item.kode;
                 document.getElementById('nama-barang').value = item.nama;
+                document.getElementById('tanggal').value = item.tanggal || ''; // Isi tanggal jika ada
                 document.getElementById('permasalahan').value = item.masalah;
                 imagePreview.src = item.gambar || '';
                 imagePreview.classList.toggle('hidden', !item.gambar);
@@ -1864,6 +1929,11 @@
         function resetForm() {
             itemForm.reset();
             document.getElementById('item-id').value = '';
+
+            // Set tanggal default ke hari ini
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal').value = today;
+
             imagePreview.src = '';
             imagePreview.classList.add('hidden');
             formTitle.textContent = "Tambah Barang Baru";
