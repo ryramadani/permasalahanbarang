@@ -337,10 +337,10 @@
                         </div>
 
                         <!-- Stat Item: Masalah Hari Ini -->
-                        <div
-                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20 col-span-2 lg:col-span-1">
+                        <div id="today-stats-card"
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20 col-span-2 lg:col-span-1 cursor-pointer group/stat">
                             <div
-                                class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                                class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0 group-hover/stat:scale-110 transition-transform">
                                 <i class="fa-solid fa-calendar-plus text-xs"></i>
                             </div>
                             <div class="min-w-0">
@@ -510,6 +510,59 @@
                             <i
                                 class="fa-solid fa-rotate text-base sm:text-xl group-hover:rotate-180 transition-transform duration-500"></i>
                         </button>
+                    </div>
+                </div>
+
+                <!-- Stats Group (Visible before login) -->
+                <div class="relative z-10 w-full max-w-4xl mx-auto px-4 mb-8">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 items-center gap-3">
+                        <!-- Stat Item: Total Permasalahan -->
+                        <div
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-boxes-stacked text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p
+                                    class="text-[7px] sm:text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1 truncate">
+                                    Total Masalah</p>
+                                <p id="total-items-count-op" class="text-base font-black text-slate-800 leading-none">0
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Stat Item: Total Kode -->
+                        <div
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-barcode text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p
+                                    class="text-[7px] sm:text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1 truncate">
+                                    Total Kode</p>
+                                <p id="total-codes-count-op" class="text-base font-black text-slate-800 leading-none">0
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Stat Item: Masalah Hari Ini -->
+                        <div id="today-stats-card-op"
+                            class="bg-white/60 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/60 shadow-lg shadow-indigo-100/10 flex items-center gap-3 transition-all hover:shadow-indigo-100/20 col-span-2 lg:col-span-1 cursor-pointer group/stat">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm flex-shrink-0 group-hover/stat:scale-110 transition-transform">
+                                <i class="fa-solid fa-calendar-plus text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p
+                                    class="text-[7px] sm:text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1 truncate">
+                                    Masalah Hari Ini</p>
+                                <p id="today-items-count-op" class="text-base font-black text-slate-800 leading-none">0
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -771,6 +824,64 @@
         </div>
     </div>
 
+    <!-- Today Items Modal -->
+    <div id="today-modal" class="hidden fixed inset-0 z-[100] transition-all duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div
+                class="bg-white w-full max-w-[450px] rounded-[3rem] shadow-2xl border border-white/40 overflow-hidden transform transition-all animate-pop-in">
+                <div class="bg-emerald-600 p-8 text-white relative">
+                    <button id="close-today-modal"
+                        class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center border border-white/30">
+                            <i class="fa-solid fa-calendar-check text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black tracking-tight uppercase">Masalah Hari Ini</h3>
+                            <div class="flex items-center gap-2">
+                                <p class="text-emerald-100 text-[10px] font-bold uppercase tracking-widest opacity-70"
+                                    id="today-date-text">
+                                    09 Jan 2026</p>
+                                <span class="w-1 h-1 bg-emerald-300/40 rounded-full"></span>
+                                <p class="text-emerald-100 text-[10px] font-bold uppercase tracking-widest opacity-70"
+                                    id="today-items-subtitle">
+                                    Memuat...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-6 bg-slate-50">
+                    <div class="relative mb-4">
+                        <i
+                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" id="today-modal-search" placeholder="Cari masalah hari ini..."
+                            class="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-bold uppercase tracking-widest">
+                    </div>
+
+                    <div id="today-items-list" class="space-y-2.5 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- Today items items go here -->
+                        <div class="text-center py-10">
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Tidak ada
+                                masalah hari ini</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-8 pb-8">
+                    <button id="close-today-modal-btn"
+                        class="w-full py-4 rounded-[2rem] bg-slate-50 text-slate-400 font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-100 hover:text-slate-500 transition-all active:scale-95 border border-slate-100">
+                        TUTUP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Supabase SDK -->
     <script type="module">
         // --- SUPABASE CONFIG ---
@@ -926,6 +1037,14 @@
         const totalCodesCount = document.getElementById('total-codes-count');
         const todayItemsCount = document.getElementById('today-items-count');
         const toggleFormIcon = document.getElementById('toggle-form-icon');
+        const todayStatsCard = document.getElementById('today-stats-card');
+        const todayModal = document.getElementById('today-modal');
+        const todayItemsList = document.getElementById('today-items-list');
+        const closeTodayModal = document.getElementById('close-today-modal');
+        const closeTodayModalBtn = document.getElementById('close-today-modal-btn');
+        const todayDateText = document.getElementById('today-date-text');
+        const todayItemsSubtitle = document.getElementById('today-items-subtitle');
+        const todayModalSearch = document.getElementById('today-modal-search');
         const toggleFormText = document.getElementById('toggle-form-text');
         const searchInputAdmin = document.getElementById('search-input-admin');
         const searchClearAdmin = document.getElementById('search-clear-admin');
@@ -933,6 +1052,10 @@
         const toggleAdminItemsBtn = document.getElementById('toggle-admin-items-btn');
         const toggleAdminItemsIcon = document.getElementById('toggle-admin-items-icon');
         const toggleAdminItemsText = document.getElementById('toggle-admin-items-text');
+        const totalItemsCountOp = document.getElementById('total-items-count-op');
+        const totalCodesCountOp = document.getElementById('total-codes-count-op');
+        const todayItemsCountOp = document.getElementById('today-items-count-op');
+        const todayStatsCardOp = document.getElementById('today-stats-card-op');
 
         let currentZoom = 1;
 
@@ -1251,6 +1374,76 @@
             }
         }
 
+        function toggleTodayModal(show) {
+            if (show) {
+                renderTodayItems();
+                todayModal.classList.remove('hidden');
+                document.body.classList.add('modal-open');
+
+                if (todayModalSearch) {
+                    todayModalSearch.value = '';
+                    todayModalSearch.focus();
+                }
+
+                // Update date text
+                const today = new Date();
+                const options = { day: '2-digit', month: 'short', year: 'numeric' };
+                todayDateText.textContent = today.toLocaleDateString('id-ID', options);
+            } else {
+                todayModal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function renderTodayItems(filterQuery = '') {
+            if (!todayItemsList) return;
+            const today = new Date().toISOString().split('T')[0];
+            const query = filterQuery.toLowerCase().trim();
+
+            const todayItems = items.filter(item => item.tanggal === today);
+            const filteredTodayItems = todayItems.filter(item =>
+                (item.nama && item.nama.toLowerCase().includes(query)) ||
+                (item.kode && item.kode.toLowerCase().includes(query)) ||
+                (item.masalah && item.masalah.toLowerCase().includes(query))
+            );
+
+            if (todayItemsSubtitle) {
+                todayItemsSubtitle.textContent = filterQuery ? `Ditemukan ${filteredTodayItems.length} Masalah` : `${todayItems.length} Masalah Hari Ini`;
+            }
+
+            if (filteredTodayItems.length === 0) {
+                todayItemsList.innerHTML = `<p class="text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest py-10">${filterQuery ? 'Tidak ada hasil ditemukan' : 'Belum ada masalah hari ini'}</p>`;
+                return;
+            }
+
+            todayItemsList.innerHTML = '';
+            filteredTodayItems.forEach(item => {
+                const itemHTML = `
+                        <div class="flex items-center justify-between p-4 bg-white rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-indigo-50/50 transition-all group/today cursor-pointer" 
+                             onclick="window.app.scrollToItem(${item.id})">
+                            <div class="flex items-center gap-4 min-w-0 flex-1">
+                                <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 transition-transform group-hover/today:scale-110 flex-shrink-0">
+                                    <i class="fa-solid fa-box text-sm"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="text-[12px] font-black text-slate-800 leading-tight uppercase truncate">
+                                            ${item.nama}
+                                        </h4>
+                                        <span class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest flex-shrink-0">${item.kode}</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5 font-bold italic opacity-80">${item.masalah || 'Tanpa deskripsi'}</p>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-2 rounded-xl group-hover/today:bg-emerald-600 group-hover/today:text-white transition-colors flex-shrink-0 ml-2">
+                                <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                            </div>
+                        </div>
+                    `;
+                todayItemsList.innerHTML += itemHTML;
+            });
+        }
+
         function switchTab(tab) {
             if (tab === 'online') {
                 tabOnline.classList.add('text-indigo-600', 'border-indigo-600', 'border-b-2');
@@ -1457,6 +1650,11 @@
                 const today = new Date().toISOString().split('T')[0];
                 const todayCount = items.filter(item => item.tanggal === today).length;
                 todayItemsCount.textContent = todayCount;
+
+                // Update Operator Stats as well
+                if (totalItemsCountOp) totalItemsCountOp.textContent = items.length;
+                if (totalCodesCountOp) totalCodesCountOp.textContent = uniqueCodes;
+                if (todayItemsCountOp) todayItemsCountOp.textContent = todayCount;
             }
 
             itemListDiv.innerHTML = ''; // Kosongkan daftar sebelum render ulang
@@ -1694,6 +1892,36 @@
                 modalImg.style.transform = 'scale(1)';
                 imageModal.classList.remove('hidden');
                 document.body.classList.add('modal-open');
+            },
+            scrollToItem: (itemId) => {
+                // Tutup modal-modal yang mungkin terbuka
+                toggleTodayModal(false);
+
+                // Pastikan daftar admin tampil
+                if (adminItemsContent && adminItemsContent.classList.contains('hidden')) {
+                    toggleAdminItemsBtn.click();
+                }
+
+                // Scroll ke element
+                setTimeout(() => {
+                    const cards = document.querySelectorAll('.card-item');
+                    let targetCard = null;
+                    cards.forEach(card => {
+                        const editBtn = card.querySelector('.edit-btn');
+                        if (editBtn && editBtn.dataset.id == itemId) {
+                            targetCard = card;
+                        }
+                    });
+
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Efek highlight
+                        targetCard.classList.add('ring-4', 'ring-indigo-500', 'ring-offset-4', 'scale-[1.02]');
+                        setTimeout(() => {
+                            targetCard.classList.remove('ring-4', 'ring-indigo-500', 'ring-offset-4', 'scale-[1.02]');
+                        }, 2500);
+                    }
+                }, 400);
             }
         };
 
@@ -2051,6 +2279,21 @@
             if (closePresenceBtn) closePresenceBtn.addEventListener('click', () => togglePresenceModal(false));
             if (tabOnline) tabOnline.addEventListener('click', () => switchTab('online'));
             if (tabHistory) tabHistory.addEventListener('click', () => switchTab('history'));
+
+            // Today Modal Events
+            if (todayStatsCard) todayStatsCard.addEventListener('click', () => toggleTodayModal(true));
+            if (closeTodayModal) closeTodayModal.addEventListener('click', () => toggleTodayModal(false));
+            if (closeTodayModalBtn) closeTodayModalBtn.addEventListener('click', () => toggleTodayModal(false));
+            if (todayModalSearch) {
+                todayModalSearch.addEventListener('input', (e) => renderTodayItems(e.target.value));
+            }
+            if (todayStatsCardOp) {
+                todayStatsCardOp.addEventListener('click', () => toggleTodayModal(true));
+            }
+            todayModal.addEventListener('click', (e) => {
+                if (e.target === todayModal.firstElementChild.parentElement) toggleTodayModal(false);
+            });
+            todayModal.querySelector('.absolute.inset-0').addEventListener('click', () => toggleTodayModal(false));
 
             presenceModal.addEventListener('click', (e) => {
                 if (e.target === presenceModal.firstElementChild.parentElement) togglePresenceModal(false);
